@@ -1,0 +1,1 @@
+{"description":"Vocals — browser voice lab, procedural beat generator and mix & master studio with WAV export","license":"MIT","name":"vocals","private":true,"scripts":{"test":"node --test tests/*.test.mjs"},"type":"module","version":"1.0.0"}

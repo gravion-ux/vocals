@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocals — Voice + Song Creator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <h1>Vocals <span>Studio</span></h1>
+      <p class="lede">Record or clone a voice, generate a beat, mix &amp; master a song — right in your browser. Local mode is free and private; bring your own AI key for studio-grade voice.</p>
+      <p class="disclosure">AI-generated audio exports are labelled “ai-generated” in the filename. Only use voices you own or have permission to use.</p>
+    </div>
+    <div class="pet-card glass">
+      <svg id="pet" data-state="idle" viewBox="0 0 120 120" aria-label="Studio pet">
+        <circle class="pet-body" cx="60" cy="62" r="38"/>
+        <circle class="pet-eye" cx="47" cy="56" r="5"/><circle class="pet-eye" cx="73" cy="56" r="5"/>
+        <path class="pet-mouth" d="M48 74 Q60 84 72 74"/>
+        <path class="pet-ear" d="M30 34 L42 46 M90 34 L78 46"/>
+      </svg>
+      <p><strong id="petNameLabel">Forge</strong> · <span id="petMsg">Hi!</span></p>
+      <label class="mini">Pet name <input id="petName" value="Forge" maxlength="20"></label>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="panel glass" id="voice">
+    <h2>🎙️ Voice Lab</h2>
+    <label>Script / lyrics
+      <textarea id="script" rows="5" placeholder="Type narration or lyrics here…">Welcome to Vocals. This is my story, in my own voice.</textarea>
+    </label>
+    <label>Pronunciation fixer (one per line: word=say-as)
+      <textarea id="pron" rows="3" placeholder="Gravion=gray-vee-on"></textarea>
+    </label>
+    <div class="row">
+      <label>Browser voice <select id="voiceSel"></select></label>
+      <label>Pitch <input id="pitch" type="range" min="0.5" max="2" step="0.05" value="1"></label>
+      <label>Rate <input id="rate" type="range" min="0.5" max="1.8" step="0.05" value="1"></label>
+    </div>
+    <div class="row">
+      <button id="previewBtn" class="btn">▶ Preview (local TTS)</button>
+      <button id="recordBtn" class="btn ghost">● Record voice</button>
+      <label class="btn ghost file">Upload voice sample <input id="voiceFile" type="file" accept="audio/*" hidden></label>
+      <button id="aiSpeak" class="btn accent">✨ Generate with my AI</button>
+    </div>
+    <label class="consent"><input id="consent" type="checkbox"> I own this voice or have permission to use it. (Required before AI clone / export actions.)</label>
+    <p id="voiceStatus" class="status">Local preview works without any key. Record or upload a voice to mix it with a beat.</p>
+  </section>
+
+  <section class="panel glass" id="beat">
+    <h2>🥁 Beat Lab</h2>
+    <div class="row">
+      <label>Mood <select id="mood"><option>happy</option><option>sad</option><option selected>chill</option><option>energetic</option><option>cinematic</option></select></label>
+      <label>Genre <select id="genre"><option>pop</option><option selected>lofi</option><option>trap</option><option>cinematic</option></select></label>
+      <label>BPM <input id="bpm" type="number" min="50" max="180" value="90"></label>
+      <label>Key <select id="key"><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>A</option><option>B</option></select></label>
+      <label>Seed <input id="beatSeed" value="forge-1"></label>
+    </div>
+    <button id="playBeat" class="btn">▶ Play beat</button>
+    <p class="status">Procedural drums + bass + chords, generated from your mood, genre, BPM, key and seed — same seed, same beat.</p>
+  </section>
+
+  <section class="panel glass" id="mix">
+    <h2>🎚️ Mix &amp; Master</h2>
+    <div class="row">
+      <label>Voice gain <input id="voiceGain" type="range" min="0" max="1.5" step="0.01" value="1"></label>
+      <label>Voice pan <input id="voicePan" type="range" min="-1" max="1" step="0.01" value="0"></label>
+      <label>Beat gain <input id="beatGain" type="range" min="0" max="1.5" step="0.01" value="0.7"></label>
+      <label>Beat pan <input id="beatPan" type="range" min="-1" max="1" step="0.01" value="0"></label>
+      <label>Reverb <input id="reverb" type="range" min="0" max="0.8" step="0.01" value="0.15"></label>
+    </div>
+    <label>Export name <input id="exportName" value="my-song"></label>
+    <div class="row">
+      <button id="exportWav" class="btn accent">⬇ Export WAV (mix &amp; master)</button>
+      <button id="recordExport" class="btn ghost">⏺ Record MP4/WebM (browser format)</button>
+    </div>
+    <canvas id="viz" width="640" height="120"></canvas>
+    <p id="mixStatus" class="status">WAV export renders offline with compression + normalization. MP4/WebM recording uses your browser's MediaRecorder and is labelled with the actual format it produced.</p>
+  </section>
+
+  <section class="panel glass" id="settings">
+    <h2>⚙️ Bring Your Own AI (optional)</h2>
+    <p class="status">For studio-grade voice quality, connect any OpenAI-compatible TTS endpoint with your own key. Keys stay in your browser's localStorage and are sent only to the endpoint you choose. Local mode needs no key.</p>
+    <div class="row">
+      <label>Base URL <input id="aiBase" placeholder="https://api.openai.com/v1"></label>
+      <label>API key <input id="aiKey" type="password" placeholder="sk-…"></label>
+      <label>TTS model <input id="aiModel" value="tts-1"></label>
+      <label>Voice <input id="aiVoice" value="alloy"></label>
+    </div>
+  </section>
+
+  <section class="panel glass credits">
+    <h2>Credits</h2>
+    <p>Created by <strong>Priyanshu Kumar Thakur (Gravion)</strong>. Pet companion “Forge” keeps you company while you create. Built with WebAudio, MediaRecorder and the Web Speech API — no accounts, no uploads in local mode.</p>
+  </section>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>
