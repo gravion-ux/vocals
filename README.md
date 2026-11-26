@@ -18,6 +18,15 @@ A modern premium web studio for voice + song creation — record or clone a voic
 - **Studio-grade voice cloning** comes from BYO AI mode with your own API key and endpoint. Vocals itself ships no AI model.
 - AI-generated exports carry an `ai-generated` disclosure in the filename. A consent checkbox ("I own this voice or have permission to use it") gates clone/export actions.
 
+## Usage
+
+1. **Voice Lab** — record with your microphone or upload a voice sample, type or paste your script/lyrics, and use the pronunciation fixer (`word=say-as`) for words the voice gets wrong. Preview locally with browser voices and adjust pitch and rate.
+2. **Beat Lab** — pick a mood, genre, BPM, key and seed, then generate. The same seed always produces the same beat, so note the seed to reproduce a take.
+3. **Mix & Master** — set voice/beat gains, stereo pan, reverb, compression and normalization, then render offline and download the WAV. Video recording (MP4/WebM) uses your browser's MediaRecorder and is labelled with the format actually produced.
+4. **Bring Your Own AI (optional)** — connect any OpenAI-compatible TTS endpoint with your own API key for studio-grade voice quality. The key is stored only in your browser. Tick the consent checkbox ("I own this voice or have permission to use it") to unlock clone/export actions; AI-generated exports carry an `ai-generated` disclosure in the filename.
+
+Everything runs locally in your browser — no account, no uploads, no key required for local mode.
+
 ## Run it
 
 Open `index.html` in a modern browser, or serve the folder:
